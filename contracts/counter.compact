@@ -1,0 +1,41 @@
+pragma language_version 0.23;
+import CompactStandardLibrary;
+
+export ledger agreementCount: Counter;
+export ledger propertyId: Bytes<32>;
+export ledger lastAgreementCommitment: Bytes<32>;
+export ledger activeSession: Counter;
+
+witness tenantSecretKey(): Bytes<32>;
+witness leaseProofNonce(): Bytes<32>;
+witness rentalRecordHash(): Bytes<32>;
+
+export circuit signAgreement(expectedPropertyId: Bytes<32>): Bytes<32> {
+  assert(propertyId == expectedPropertyId, "Invalid rental property ID provided");
+
+  const tenantKey = tenantSecretKey();
+  const nonce = leaseProofNonce();
+  const recordHash = rentalRecordHash();
+
+  const agreementCommitment = persistentHash<Vector<4, Bytes<32>>>([
+    pad(32, "cra:rental:agreement:v1"),
+    tenantKey,
+    nonce,
+    recordHash
+  ]);
+
+  agreementCount.increment(1);
+  const disclosedCommitment = disclose(agreementCommitment);
+  lastAgreementCommitment = disclosedCommitment;
+  return disclosedCommitment;
+}
+
+export circuit resetProperty(newPropertyId: Bytes<32>): Bytes<32> {
+  propertyId = disclose(newPropertyId);
+  activeSession.increment(1);
+  return propertyId;
+}
+
+export circuit incrementSession(): [] {
+  activeSession.increment(1);
+}
