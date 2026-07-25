@@ -2,6 +2,8 @@
 > A privacy-preserving zero-knowledge tenant qualification & lease signing dApp built on the Midnight Network using Compact smart contracts.
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-confidential--rental--aggreement-181717?style=flat-square&logo=github)](https://github.com/techyguy22674/confidential-rental-aggreement)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-confidential--rental--aggreement.vercel.app-000000?style=flat-square&logo=vercel)](https://confidential-rental-aggreement.vercel.app/)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/LYaO_T9eguU)
 [![CI/CD Pipeline](https://github.com/techyguy22674/confidential-rental-aggreement/actions/workflows/ci.yml/badge.svg)](https://github.com/techyguy22674/confidential-rental-aggreement/actions/workflows/ci.yml)
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preprod-8b5cf6?style=flat-square)](https://explorer.preprod.midnight.network)
 [![Compact Language](https://img.shields.io/badge/Compact-v0.23-e11d48?style=flat-square)](https://midnight.network)
@@ -21,6 +23,8 @@
 ## 🏗️ Repository & Deployment
 
 - 📦 **GitHub Repository**: [https://github.com/techyguy22674/confidential-rental-aggreement](https://github.com/techyguy22674/confidential-rental-aggreement)
+- 🚀 **Vercel Live Demo**: [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/)
+- 🎥 **YouTube Demo Video**: [https://youtu.be/LYaO_T9eguU](https://youtu.be/LYaO_T9eguU)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - 🌐 **Midnight Explorer**: [https://explorer.preprod.midnight.network](https://explorer.preprod.midnight.network)
 - 📡 **Network**: Midnight Preprod Testnet
@@ -160,4 +164,6 @@ npx tsx src/integration/deploy.ts
 - [x] **Interactive Web UI**: Unique Crimson Rose & Obsidian Velvet glassmorphic UI with HTML5, CSS3, & TypeScript.
 - [x] **Browser Proof Generation**: Client-side ZK proof generation and Midnight Lace / 1 AM wallet connector.
 - [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`0xc7d85c17abdd4f53371cbf7410b607383c663ec0`).
+- [x] **Live Vercel Deployment**: Deployed at [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/).
+- [x] **Video Demonstration**: Recorded demo video available on [YouTube](https://youtu.be/LYaO_T9eguU).
 - [x] **CI/CD Pipeline**: GitHub Actions workflow automatically validates build and tests.
