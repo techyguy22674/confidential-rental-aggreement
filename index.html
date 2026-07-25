@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confidential Rental Agreement | Midnight Network ZK dApp</title>
+  <meta name="description" content="Privacy-preserving zero-knowledge rental agreement verification, tenant qualification, and lease signing dApp built on Midnight Network using Compact smart contracts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <a href="/index.html" class="brand">
+          <div class="brand-badge">🏠</div>
+          <div>
+            <span class="brand-title">Confidential Rental Agreement</span>
+            <span class="brand-subtitle">Midnight ZK Protocol</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="/index.html" class="nav-link active">Home</a>
+          <a href="/checkin.html" class="nav-link">Tenant Portal</a>
+          <a href="/admin.html" class="nav-link">Landlord Admin</a>
+          <a href="/inspector.html" class="nav-link">ZK Inspector</a>
+          <a href="/explorer.html" class="nav-link">Chain Explorer</a>
+        </nav>
+        <div class="navbar-actions">
+          <div class="net-pill">
+            <span class="net-dot"></span>
+            <span>Preprod</span>
+          </div>
+          <button id="connectWalletBtn" class="btn btn-primary btn-sm">Connect Wallet</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="main-content">
+      <section style="padding: 4rem 1.5rem; text-align: center; max-width: 900px; margin: 0 auto;">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(251, 113, 133, 0.3); padding: 0.4rem 1rem; border-radius: 30px; margin-bottom: 1.5rem;">
+          <span style="color: var(--rose-400); font-weight: 700; font-size: 0.85rem;">🔒 Zero-Knowledge Tenant Verification & Lease Signing</span>
+        </div>
+        
+        <h1 style="font-size: 3rem; font-weight: 900; line-height: 1.15; margin-bottom: 1.25rem; background: linear-gradient(135deg, #ffffff 30%, var(--rose-300) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          Sign Rental Agreements Privately Without Exposing Financial Identity
+        </h1>
+        
+        <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 760px; margin-left: auto; margin-right: auto;">
+          Prove rental deposit capability, credit eligibility, and lease agreement compliance confidentially. Tenants generate zero-knowledge proofs directly in their browser on Midnight Network — proving tenancy qualifications without revealing personal identity, exact income/bank balances, or background check details.
+        </p>
+
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="/checkin.html" class="btn btn-primary" style="padding: 0.85rem 1.75rem; font-size: 1rem;">
+            🏠 Sign Lease Agreement Privately →
+          </a>
+          <a href="/explorer.html" class="btn" style="padding: 0.85rem 1.75rem; font-size: 1rem; background: rgba(244, 63, 94, 0.1); border: 1px solid var(--border-subtle); color: var(--text-primary);">
+            Explore On-Chain Ledger
+          </a>
+        </div>
+      </section>
+
+      <!-- Privacy Model Matrix -->
+      <section style="max-width: 1080px; margin: 2rem auto 4rem; padding: 0 1.5rem;">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem; color: var(--text-primary);">
+          🛡️ Midnight Privacy Model — What Is and Isn't Disclosed
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          
+          <!-- Private Card -->
+          <div style="background: rgba(24, 10, 18, 0.78); border: 1px solid rgba(248, 113, 113, 0.3); border-radius: 18px; padding: 2rem; backdrop-filter: blur(12px);">
+            <h3 style="color: #f87171; font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              ❌ Strictly Private (Hidden from Network)
+            </h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; color: var(--text-secondary); font-size: 0.95rem;">
+              <li>🔒 <strong>Tenant Secret Key</strong> (`tenantSecretKey`)</li>
+              <li>🔒 <strong>Lease Entropy Nonce</strong> (`leaseProofNonce`)</li>
+              <li>🔒 <strong>Exact Income, Bank Balances & Credit Math</strong> (`rentalRecordHash`)</li>
+              <li>🔒 <strong>Background Check & Employment History</strong> (Device Witness)</li>
+            </ul>
+          </div>
+
+          <!-- Public Card -->
+          <div style="background: rgba(24, 10, 18, 0.78); border: 1px solid rgba(251, 113, 133, 0.35); border-radius: 18px; padding: 2rem; backdrop-filter: blur(12px);">
+            <h3 style="color: var(--rose-400); font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              ✅ Public On-Chain Ledger State
+            </h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; color: var(--text-secondary); font-size: 0.95rem;">
+              <li>📊 <strong>Total Signed Agreements</strong> (`agreementCount`)</li>
+              <li>🏷️ <strong>Rental Property ID</strong> (`propertyId`)</li>
+              <li>🔑 <strong>Agreement Commitment Hash</strong> (`lastAgreementCommitment`)</li>
+              <li>🔄 <strong>Active Lease Epoch</strong> (`activeSession`)</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <p>Built with 🔒 on <a href="https://midnight.network" target="_blank" style="color: var(--rose-400);">Midnight Network</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/index.ts"></script>
+</body>
+</html>
