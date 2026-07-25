@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chain Explorer | Confidential Rental Agreement</title>
+  <meta name="description" content="Explore on-chain ledger state and ZK commitment hashes for Confidential Rental Agreement contract on Midnight Network.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <header class="navbar">
+      <div class="navbar-container">
+        <a href="/index.html" class="brand">
+          <div class="brand-badge">🏠</div>
+          <div>
+            <span class="brand-title">Confidential Rental Agreement</span>
+            <span class="brand-subtitle">Chain Explorer</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="/index.html" class="nav-link">Home</a>
+          <a href="/checkin.html" class="nav-link">Tenant Portal</a>
+          <a href="/admin.html" class="nav-link">Landlord Admin</a>
+          <a href="/inspector.html" class="nav-link">ZK Inspector</a>
+          <a href="/explorer.html" class="nav-link active">Chain Explorer</a>
+        </nav>
+        <div class="navbar-actions">
+          <div class="net-pill"><span class="net-dot"></span><span>Preprod</span></div>
+          <button id="connectWalletBtn" class="btn btn-primary btn-sm">Connect Wallet</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div style="max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem;">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+          <h1 style="font-size: 2.2rem; color: var(--text-primary); margin-bottom: 0.5rem;">On-Chain Ledger Explorer</h1>
+          <p style="color: var(--text-secondary);">Real-time ledger state for Confidential Rental Agreement contract on Midnight Network</p>
+        </div>
+
+        <div style="background: rgba(24, 10, 18, 0.78); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+          <h3 style="color: var(--text-primary); margin-bottom: 1.25rem; font-size: 1.2rem;">Deployed Contract Metadata</h3>
+          <div style="display: grid; gap: 1rem;">
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); display: block;">CONTRACT ADDRESS</span>
+              <span id="contractAddr" style="font-family: var(--font-mono); font-size: 1rem; color: var(--rose-400); word-break: break-all;">0xc7d85c17abdd4f53371cbf7410b607383c663ec0</span>
+            </div>
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); display: block;">TARGET NETWORK</span>
+              <span style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--coral-400);">Midnight Preprod Testnet (Chain ID: preprod)</span>
+            </div>
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); display: block;">PROOF SERVER PROVIDER</span>
+              <span id="explorerProofServerEl" style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--rose-400);">http://localhost:6300 (Status: ONLINE)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-container">
+        <p>Built with 🔒 on <a href="https://midnight.network" target="_blank" style="color: var(--rose-400);">Midnight Network</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/index.ts"></script>
+</body>
+</html>
