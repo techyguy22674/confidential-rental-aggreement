@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZK Inspector | Confidential Rental Agreement</title>
+  <meta name="description" content="Inspect zero-knowledge proof generation logs, Compact ZK witnesses, and commitment verification for rental agreements.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <header class="navbar">
+      <div class="navbar-container">
+        <a href="/index.html" class="brand">
+          <div class="brand-badge">🏠</div>
+          <div>
+            <span class="brand-title">Confidential Rental Agreement</span>
+            <span class="brand-subtitle">ZK Inspector</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="/index.html" class="nav-link">Home</a>
+          <a href="/checkin.html" class="nav-link">Tenant Portal</a>
+          <a href="/admin.html" class="nav-link">Landlord Admin</a>
+          <a href="/inspector.html" class="nav-link active">ZK Inspector</a>
+          <a href="/explorer.html" class="nav-link">Chain Explorer</a>
+        </nav>
+        <div class="navbar-actions">
+          <div class="net-pill"><span class="net-dot"></span><span>Preprod</span></div>
+          <button id="connectWalletBtn" class="btn btn-primary btn-sm">Connect Wallet</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div style="max-width: 960px; margin: 2rem auto; padding: 0 1.5rem;">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+          <h1 style="font-size: 2.3rem; color: var(--text-primary); margin-bottom: 0.5rem;">Zero-Knowledge Circuit Inspector</h1>
+          <p style="color: var(--text-secondary); font-size: 1.05rem;">Analyze Compact ZK circuits, proof parameters, and witness isolation</p>
+        </div>
+
+        <div style="background: rgba(24, 10, 18, 0.78); border: 1px solid rgba(251, 113, 133, 0.3); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; backdrop-filter: blur(16px);">
+          <h3 style="color: var(--text-primary); margin-bottom: 1.25rem; font-size: 1.25rem;">Compact Circuit Configuration</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            <div style="background: rgba(255,255,255,0.03); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
+              <span style="font-size: 0.8rem; color: var(--text-secondary); display: block;">MAIN CIRCUIT METHOD</span>
+              <span style="font-family: var(--font-mono); font-size: 1rem; color: var(--rose-400); font-weight: 700;">signAgreement()</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
+              <span style="font-size: 0.8rem; color: var(--text-secondary); display: block;">COMMITMENT VECTOR TYPE</span>
+              <span style="font-family: var(--font-mono); font-size: 1rem; color: var(--coral-400); font-weight: 700;">persistentHash&lt;Vector&lt;4, Bytes&lt;32&gt;&gt;&gt;</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
+              <span style="font-size: 0.8rem; color: var(--text-secondary); display: block;">PRIVATE WITNESSES</span>
+              <span style="font-family: var(--font-mono); font-size: 0.85rem; color: #fda4af; display: block; margin-top: 0.25rem;">tenantSecretKey()<br/>leaseProofNonce()<br/>rentalRecordHash()</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.07);">
+              <span style="font-size: 0.8rem; color: var(--text-secondary); display: block;">PROOF SERVER ENDPOINT</span>
+              <span id="inspectorProofServer" style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--rose-400);">http://localhost:6300</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-container">
+        <p>Built with 🔒 on <a href="https://midnight.network" target="_blank" style="color: var(--rose-400);">Midnight Network</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/index.ts"></script>
+</body>
+</html>
