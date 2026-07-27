@@ -22,13 +22,14 @@
 
 ## 🏗️ Repository & Deployment
 
+- 📄 **Project Proposal**: [PROPOSAL.md](PROPOSAL.md)
 - 📦 **GitHub Repository**: [https://github.com/techyguy22674/confidential-rental-aggreement](https://github.com/techyguy22674/confidential-rental-aggreement)
 - 🚀 **Vercel Live Demo**: [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/)
 - 🎥 **YouTube Demo Video**: [https://youtu.be/LYaO_T9eguU](https://youtu.be/LYaO_T9eguU)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - 🌐 **Midnight Explorer**: [https://explorer.preprod.midnight.network](https://explorer.preprod.midnight.network)
 - 📡 **Network**: Midnight Preprod Testnet
-- 🔑 **Contract Address**: `0xc7d85c17abdd4f53371cbf7410b607383c663ec0`
+- 🔑 **Contract Address**: `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`
 - 🔍 **Proof Server**: `http://localhost:6300` (local Docker) / Midnight Preprod ZK Infrastructure
 - 💡 **Vercel Note**: No `.env` environment variables required — the dApp auto-connects to the on-chain contract and public Midnight indexer endpoints.
 
@@ -122,7 +123,7 @@ export circuit incrementSession(): [] {
 ## 🔑 Deployed Contract Details
 
 ```
-Contract Address : 0xc7d85c17abdd4f53371cbf7410b607383c663ec0
+Contract Address : 02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8
 Network          : Midnight Preprod Testnet
 Proof Server     : http://localhost:6300
 Indexer URL      : https://indexer.preprod.midnight.network
@@ -158,12 +159,12 @@ npx tsx src/integration/deploy.ts
 - [x] **Contract Compilation**: Compiled to `managed/` with TypeScript types and ZKIR circuits.
 - [x] **Local Unit Tests**: 100% test pass rate using Vitest (`4/4` tests passing).
 - [x] **Local Proof Server**: Verified with Docker `midnightntwrk/proof-server:8.1.0`.
-- [x] **On-Chain Deployment**: Deployed to Midnight Preprod at `0xc7d85c17abdd4f53371cbf7410b607383c663ec0`.
+- [x] **On-Chain Deployment**: Deployed to Midnight Preprod at `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`.
 
 ### Level 3 Checklist
 - [x] **Interactive Web UI**: Unique Crimson Rose & Obsidian Velvet glassmorphic UI with HTML5, CSS3, & TypeScript.
 - [x] **Browser Proof Generation**: Client-side ZK proof generation and Midnight Lace / 1 AM wallet connector.
-- [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`0xc7d85c17abdd4f53371cbf7410b607383c663ec0`).
+- [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`).
 - [x] **Live Vercel Deployment**: Deployed at [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/).
 - [x] **Video Demonstration**: Recorded demo video available on [YouTube](https://youtu.be/LYaO_T9eguU).
 - [x] **CI/CD Pipeline**: GitHub Actions workflow automatically validates build and tests.

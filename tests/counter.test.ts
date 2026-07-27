@@ -10,7 +10,7 @@ describe('Confidential Rental Agreement (CRA) Smart Contract Test Suite', () => 
 
   it('should initialize ConfidentialRentalAgreementClient with default network config', () => {
     expect(CONTRACT_ADDRESS).toBeDefined();
-    expect(CONTRACT_ADDRESS.startsWith('0x')).toBe(true);
+    expect(CONTRACT_ADDRESS.startsWith('0200')).toBe(true);
     expect(NETWORK_CONFIG.networkId).toBe('preprod');
   });
 
