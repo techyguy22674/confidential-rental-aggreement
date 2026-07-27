@@ -38,13 +38,13 @@
 ## 📸 Platform Screenshots
 
 ### Confidential Rental Agreement — Main Application & Dashboard
-![Confidential Rental Agreement Main Application](photos/screenshot.png)
+![Confidential Rental Agreement Main Application](photos/image.png)
 
 ### ZK Proof Generation & Activity Log
 ![ZK Proof Generation & Activity Log](photos/image-1.png)
 
 ### On-Chain Ledger & Admin Panel
-![On-Chain Ledger & Admin Panel](photos/image.png)
+![On-Chain Ledger & Admin Panel](photos/screenshot.png)
 
 ---
 
