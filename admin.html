@@ -62,10 +62,20 @@
                 style="width: 100%; padding: 0.85rem 1rem; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 10px; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.95rem;">
               <span style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.35rem; display: block;">Resets the lease agreement counter and updates the active rental property on-chain.</span>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.9rem; font-size: 1rem;">
-              ⚙️ Update On-Chain Property ID & Increment Lease Epoch
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.9rem; font-size: 1rem; margin-bottom: 1.5rem;">
+              ⚙️ Update On-Chain Property ID (`resetProperty` Circuit)
             </button>
           </form>
+
+          <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; margin-top: 1.5rem;">
+            <label style="display: block; color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem;">Increment Active Lease Epoch (`incrementSession` Circuit)</label>
+            <button id="incrementSessionBtn" class="btn btn-secondary" style="width: 100%; padding: 0.85rem;">Increment Lease Session Counter</button>
+          </div>
+
+          <div id="adminLogArea" style="margin-top: 1.5rem; display: none;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">On-Chain Execution Result:</div>
+            <div id="adminLogBox" style="background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 1rem; font-family: var(--font-mono); font-size: 0.85rem; color: #fb7185; line-height: 1.8; word-break: break-all;"></div>
+          </div>
         </div>
       </div>
     </main>
