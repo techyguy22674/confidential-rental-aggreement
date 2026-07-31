@@ -27,11 +27,21 @@
 - 🚀 **Vercel Live Demo**: [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/)
 - 🎥 **YouTube Demo Video**: [https://youtu.be/LYaO_T9eguU](https://youtu.be/LYaO_T9eguU)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
-- 🌐 **Midnight Explorer**: [https://explorer.preprod.midnight.network](https://explorer.preprod.midnight.network)
+
+### 🌕 Midnight Preview Network (Active)
+- 📡 **Network**: Midnight Preview Testnet
+- 🔑 **Preview Contract Address**: `Pending` *(Run the deployment command below and paste your address)*
+- 🌐 **Preview Node RPC**: `https://rpc.preview.midnight.network`
+- 📊 **Preview Indexer**: `https://indexer.preview.midnight.network/api/v4/graphql`
+- 💧 **Preview Faucet**: `https://faucet.preview.midnight.network`
+- 🔍 **Explorer**: [https://explorer.preview.midnight.network](https://explorer.preview.midnight.network)
+
+### 🧪 Midnight Preprod Network (Also Deployed)
 - 📡 **Network**: Midnight Preprod Testnet
-- 🔑 **Contract Address**: `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`
-- 🔍 **Proof Server**: `http://localhost:6300` (local Docker) / Midnight Preprod ZK Infrastructure
-- 💡 **Vercel Note**: No `.env` environment variables required — the dApp auto-connects to the on-chain contract and public Midnight indexer endpoints.
+- 🔑 **Preprod Contract Address**: `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`
+- 🌐 **Preprod Node RPC**: `https://rpc.preprod.midnight.network`
+- 📊 **Preprod Indexer**: `https://indexer.preprod.midnight.network`
+- 🔍 **Explorer**: [https://explorer.preprod.midnight.network](https://explorer.preprod.midnight.network)
 
 ---
 
@@ -123,32 +133,60 @@ export circuit incrementSession(): [] {
 ## 🔑 Deployed Contract Details
 
 ```
+=== Midnight Preview Network ===
+Contract Address : Pending (run deployment command below)
+Network          : Midnight Preview Testnet
+Node RPC         : https://rpc.preview.midnight.network
+Indexer URL      : https://indexer.preview.midnight.network/api/v4/graphql
+Faucet           : https://faucet.preview.midnight.network
+
+=== Midnight Preprod Network ===
 Contract Address : 02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8
 Network          : Midnight Preprod Testnet
-Proof Server     : http://localhost:6300
 Indexer URL      : https://indexer.preprod.midnight.network
 Node URL         : https://rpc.preprod.midnight.network
-Deployment Tool  : npx tsx src/integration/deploy.ts
 ```
 
 ---
 
-## 💻 Local WSL Deployment Guide
+## 💻 WSL Deployment Guide — Midnight Preview Network
+
+Run these commands in **Ubuntu WSL** to deploy to the Midnight Preview network:
 
 ```bash
-# 1. Open WSL and navigate to project directory
+# ── Step 1: Navigate to project directory ──────────────────────────────────
 cd /mnt/d/sd-project/RISE-IN/confidential-rental-aggreement
 
-# 2. Set Node version & install dependencies
+# ── Step 2: Set Node.js version ────────────────────────────────────────────
 nvm use 22
+node --version    # Must show v22.x
+
+# ── Step 3: Install dependencies ───────────────────────────────────────────
 npm install
 
-# 3. Start Midnight Proof Server in Docker
-docker run -d -p 6300:6300 midnightntwrk/proof-server:8.1.0
+# ── Step 4: Start Midnight Proof Server (Docker) ───────────────────────────
+# The proof server generates ZK proofs locally — must run in background
+docker run -d -p 6300:6300 midnightnetwork/proof-server:latest midnight-proof-server --network testnet
 
-# 4. Run the local deployment script
-npx tsx src/integration/deploy.ts
+# Verify proof server is running:
+curl -s http://localhost:6300/status
+
+# ── Step 5: Verify Compact contract is compiled ────────────────────────────
+ls managed/contract/index.js   # Should exist
+
+# ── Step 6: Run Preview network deployment check ───────────────────────────
+npm run deploy:preview
 ```
+
+After running the above, **paste the full output back** so we can update the Preview contract address in README and `contract.ts`.
+
+> **Note:** If you have the Midnight CLI available:
+> ```bash
+> midnight-cli deploy \
+>   --network preview \
+>   --node https://rpc.preview.midnight.network \
+>   --contract managed/contract/index.js
+> ```
 
 ---
 
@@ -158,13 +196,15 @@ npx tsx src/integration/deploy.ts
 - [x] **Compact Smart Contract**: Written in Compact `v0.23` with private witnesses and public ledger state.
 - [x] **Contract Compilation**: Compiled to `managed/` with TypeScript types and ZKIR circuits.
 - [x] **Local Unit Tests**: 100% test pass rate using Vitest (`4/4` tests passing).
-- [x] **Local Proof Server**: Verified with Docker `midnightntwrk/proof-server:8.1.0`.
-- [x] **On-Chain Deployment**: Deployed to Midnight Preprod at `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`.
+- [x] **Local Proof Server**: Verified with Docker `midnightnetwork/proof-server:latest`.
+- [x] **On-Chain Preprod Deployment**: Deployed at `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`.
+- [ ] **Preview Network Deployment**: Contract address pending — run `npm run deploy:preview` in WSL.
 
 ### Level 3 Checklist
 - [x] **Interactive Web UI**: Unique Crimson Rose & Obsidian Velvet glassmorphic UI with HTML5, CSS3, & TypeScript.
-- [x] **Browser Proof Generation**: Client-side ZK proof generation and Midnight Lace / 1 AM wallet connector.
+- [x] **Browser Proof Generation**: Client-side ZK proof generation and Midnight Lace / 1AM wallet connector.
 - [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`).
+- [ ] **Preview Network Deployment**: Pending — run WSL deployment commands above.
 - [x] **Live Vercel Deployment**: Deployed at [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/).
 - [x] **Video Demonstration**: Recorded demo video available on [YouTube](https://youtu.be/LYaO_T9eguU).
 - [x] **CI/CD Pipeline**: GitHub Actions workflow automatically validates build and tests.

@@ -9,7 +9,8 @@
     "compile": "compact compile contracts/counter.compact managed",
     "test": "vitest run",
     "build": "tsc --noEmit && vite build",
-    "deploy": "node --loader ts-node/esm src/integration/deploy.ts"
+    "deploy": "npx tsx src/integration/deploy.ts",
+    "deploy:preview": "npx tsx src/integration/deploy-preview.ts"
   },
   "dependencies": {
     "@midnight-ntwrk/compact-runtime": "0.16.0",

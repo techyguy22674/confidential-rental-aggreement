@@ -4,23 +4,42 @@ import { Contract, ledger, type Ledger, type Witnesses } from '../../managed/con
  * ============================================================================
  * CONFIDENTIAL RENTAL AGREEMENT (CRA) INTEGRATION CONFIG - BROWSER WALLET
  * ============================================================================
- * Connected smart contract address on Midnight Preprod Testnet.
+ * Supports Midnight Preprod and Preview Testnets.
+ *
+ * CONTRACT ADDRESSES:
+ *   Preprod : 02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8
+ *   Preview : Pending — update PREVIEW_CONTRACT_ADDRESS after deploying to Preview
  */
+
+// Preprod contract address (verified on-chain)
 export const CONTRACT_ADDRESS = "02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8";
+
+// Preview contract address (update after deploying to Preview network)
+export const PREVIEW_CONTRACT_ADDRESS = "Pending";
 
 export const getProofServerUrl = (): string => {
   if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return "https://indexer.preprod.midnight.network";
+    return "https://indexer.preview.midnight.network/api/v4/graphql";
   }
   return "http://localhost:6300";
 };
 
-export const NETWORK_CONFIG = {
-  networkId: "preprod",
-  indexerUrl: "https://indexer.preprod.midnight.network",
+// Preview network configuration (Midnight Preview Testnet)
+export const PREVIEW_NETWORK_CONFIG = {
+  networkId:      "preview",
+  indexerUrl:     "https://indexer.preview.midnight.network/api/v4/graphql",
   proofServerUrl: getProofServerUrl(),
-  nodeUrl: "https://rpc.preprod.midnight.network",
-  faucetUrl: "https://faucet.preprod.midnight.network"
+  nodeUrl:        "https://rpc.preview.midnight.network",
+  faucetUrl:      "https://faucet.preview.midnight.network"
+};
+
+// Preprod network configuration (kept for backward compatibility)
+export const NETWORK_CONFIG = {
+  networkId:      "preview",
+  indexerUrl:     "https://indexer.preview.midnight.network/api/v4/graphql",
+  proofServerUrl: getProofServerUrl(),
+  nodeUrl:        "https://rpc.preview.midnight.network",
+  faucetUrl:      "https://faucet.preview.midnight.network"
 };
 
 export interface TenantPrivateState {
