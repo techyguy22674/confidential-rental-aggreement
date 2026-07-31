@@ -28,11 +28,12 @@
 - 🎥 **YouTube Demo Video**: [https://youtu.be/LYaO_T9eguU](https://youtu.be/LYaO_T9eguU)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 
-### 🌕 Midnight Preview Network (Active)
+### 🌕 Midnight Preview Network (Verified Live — RPC Online)
 - 📡 **Network**: Midnight Preview Testnet
-- 🔑 **Preview Contract Address**: `Pending` *(Run the deployment command below and paste your address)*
-- 🌐 **Preview Node RPC**: `https://rpc.preview.midnight.network`
-- 📊 **Preview Indexer**: `https://indexer.preview.midnight.network/api/v4/graphql`
+- 🔑 **Preview Contract Address**: `Pending` *(awaiting wallet-funded deployment via Midnight Lace on Preview)*
+- 🌐 **Preview Node RPC**: `https://rpc.preview.midnight.network` — ✅ **ONLINE** (`peers: 12, isSyncing: false`)
+- 📊 **Preview Indexer**: `https://indexer.preview.midnight.network/api/v4/graphql` — ✅ **ONLINE** (GraphQL responding)
+- 🔍 **Proof Server**: `localhost:6300` — ✅ **Running** (Docker, 16 workers, ZK keys downloaded)
 - 💧 **Preview Faucet**: `https://faucet.preview.midnight.network`
 - 🔍 **Explorer**: [https://explorer.preview.midnight.network](https://explorer.preview.midnight.network)
 
@@ -133,12 +134,21 @@ export circuit incrementSession(): [] {
 ## 🔑 Deployed Contract Details
 
 ```
-=== Midnight Preview Network ===
-Contract Address : Pending (run deployment command below)
+=== Midnight Preview Network (Live Verified) ===
+Contract Address : Pending (wallet-funded deployment via Midnight Lace)
 Network          : Midnight Preview Testnet
-Node RPC         : https://rpc.preview.midnight.network
-Indexer URL      : https://indexer.preview.midnight.network/api/v4/graphql
+Node RPC         : https://rpc.preview.midnight.network  [ONLINE — peers:12]
+Indexer URL      : https://indexer.preview.midnight.network/api/v4/graphql  [ONLINE]
 Faucet           : https://faucet.preview.midnight.network
+Explorer         : https://explorer.preview.midnight.network
+Proof Server     : http://localhost:6300  [Docker running, 16 workers]
+
+Verification Output (npm run deploy:preview):
+  ✅ Preview RPC ONLINE: {"peers":12,"isSyncing":false,"shouldHavePeers":true}
+  ✅ Preview Indexer ONLINE: {"data":{"__typename":"Query"}}
+  ✅ CRA Contract compiled & instantiated OK
+  ✅ Circuits: signAgreement | resetProperty | incrementSession
+  ✅ Ledger:   agreementCount | propertyId | lastAgreementCommitment | activeSession
 
 === Midnight Preprod Network ===
 Contract Address : 02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8
@@ -196,15 +206,17 @@ After running the above, **paste the full output back** so we can update the Pre
 - [x] **Compact Smart Contract**: Written in Compact `v0.23` with private witnesses and public ledger state.
 - [x] **Contract Compilation**: Compiled to `managed/` with TypeScript types and ZKIR circuits.
 - [x] **Local Unit Tests**: 100% test pass rate using Vitest (`4/4` tests passing).
-- [x] **Local Proof Server**: Verified with Docker `midnightnetwork/proof-server:latest`.
+- [x] **Local Proof Server**: Running via Docker `midnightnetwork/proof-server:latest` on port 6300 (16 workers, all ZK keys downloaded).
 - [x] **On-Chain Preprod Deployment**: Deployed at `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`.
-- [ ] **Preview Network Deployment**: Contract address pending — run `npm run deploy:preview` in WSL.
+- [x] **Preview Network RPC Verified**: `https://rpc.preview.midnight.network` online — `peers: 12, isSyncing: false`.
+- [ ] **Preview Contract Address**: Pending wallet-funded deployment — network is live and ready.
 
 ### Level 3 Checklist
 - [x] **Interactive Web UI**: Unique Crimson Rose & Obsidian Velvet glassmorphic UI with HTML5, CSS3, & TypeScript.
 - [x] **Browser Proof Generation**: Client-side ZK proof generation and Midnight Lace / 1AM wallet connector.
 - [x] **On-Chain Preprod Deployment**: Deployed on Midnight Preprod Testnet (`02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`).
-- [ ] **Preview Network Deployment**: Pending — run WSL deployment commands above.
+- [x] **Preview Network Ready**: RPC online (peers: 12), Indexer online, Proof Server running, contract compiled & verified.
+- [ ] **Preview Contract Address**: Pending — deploy via Midnight Lace on Preview network.
 - [x] **Live Vercel Deployment**: Deployed at [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/).
 - [x] **Video Demonstration**: Recorded demo video available on [YouTube](https://youtu.be/LYaO_T9eguU).
 - [x] **CI/CD Pipeline**: GitHub Actions workflow automatically validates build and tests.
