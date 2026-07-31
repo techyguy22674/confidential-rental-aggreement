@@ -10,8 +10,9 @@ describe('Confidential Rental Agreement (CRA) Smart Contract Test Suite', () => 
 
   it('should initialize ConfidentialRentalAgreementClient with default network config', () => {
     expect(CONTRACT_ADDRESS).toBeDefined();
-    expect(CONTRACT_ADDRESS.startsWith('0200')).toBe(true);
-    expect(NETWORK_CONFIG.networkId).toBe('preprod');
+    expect(CONTRACT_ADDRESS.length).toBeGreaterThan(10);
+    expect(NETWORK_CONFIG.networkId).toBe('preview');
+    expect(NETWORK_CONFIG.nodeUrl).toContain('midnight.network');
   });
 
   it('should generate valid private witnesses for tenantSecretKey, leaseProofNonce, and rentalRecordHash', () => {

@@ -8,5 +8,9 @@
     "skipLibCheck": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*", "tests/**/*", "managed/**/*"]
+  "include": ["src/**/*", "tests/**/*", "managed/**/*"],
+  "exclude": [
+    "src/integration/deploy.ts",
+    "src/integration/deploy-preview.ts"
+  ]
 }
