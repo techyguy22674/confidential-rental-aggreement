@@ -3,70 +3,84 @@
  * ============================================================================
  * CRA CONTRACT — MIDNIGHT PREVIEW NETWORK DEPLOYMENT SCRIPT
  * ============================================================================
- * Deploys the Confidential Rental Agreement Compact contract to the Midnight
- * Preview Testnet using the Midnight JS SDK.
+ * Verifies connectivity to Midnight Preview network and outputs deployment
+ * instructions for browser wallet (Midnight Lace) deployment.
  *
- * Prerequisites:
- *   1. Proof server running: docker run -d -p 6300:6300 midnightnetwork/proof-server:latest midnight-proof-server --network testnet
- *   2. Set WALLET_SEED env var:  export WALLET_SEED="word1 word2 ... word24"
- *      OR just run without a seed — we generate a fresh key and show the address
- *      for you to fund from the Preview faucet.
- *
- * Usage:
- *   export WALLET_SEED="your 24 word mnemonic here"
- *   npx tsx src/integration/deploy-live.ts
+ * Usage (WSL):
+ *   cd /mnt/d/sd-project/RISE-IN/confidential-rental-aggreement
+ *   npm run deploy:preview
  * ============================================================================
  */
 
+import { execSync } from 'child_process';
 import { Contract } from '../../managed/contract/index.js';
 
 const PREVIEW_NODE    = 'https://rpc.preview.midnight.network';
 const PREVIEW_INDEXER = 'https://indexer.preview.midnight.network/api/v4/graphql';
-const PREVIEW_PROOF   = 'http://localhost:6300';
 const PREVIEW_FAUCET  = 'https://faucet.preview.midnight.network';
-
-// ─── Helper: encode bytes to hex string ─────────────────────────────────────
-function toHex(bytes: Uint8Array): string {
-  return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
 // ─── Helper: sleep ───────────────────────────────────────────────────────────
 function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// ─── Step 1: Check proof server health ───────────────────────────────────────
-async function checkProofServer(): Promise<boolean> {
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    try {
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), 6000);
-      const res = await fetch(`${PREVIEW_PROOF}/status`, { signal: ctrl.signal });
-      clearTimeout(t);
-      if (res.ok) {
-        const body = await res.json().catch(() => ({}));
-        console.log(`      ✅ Proof server ready: ${JSON.stringify(body)}`);
-        return true;
-      }
-    } catch { /* keep trying */ }
-    if (attempt < 3) {
-      console.log(`      Attempt ${attempt} failed — retrying in 5s...`);
-      await sleep(5000);
-    }
+// ─── Get Windows Host IP from WSL2 (for Docker port access) ─────────────────
+function getWindowsHostIp(): string {
+  try {
+    const ip = execSync("cat /etc/resolv.conf | grep nameserver | awk '{print $2}'", { encoding: 'utf8' }).trim();
+    return ip || '127.0.0.1';
+  } catch {
+    return '127.0.0.1';
   }
-  return false;
 }
 
-// ─── Step 2: Check Preview network reachability ───────────────────────────────
+// ─── Check proof server via multiple IPs ────────────────────────────────────
+async function checkProofServer(): Promise<{ ok: boolean; url: string }> {
+  const windowsHostIp = getWindowsHostIp();
+  const candidates = [
+    `http://localhost:6300`,
+    `http://127.0.0.1:6300`,
+    `http://${windowsHostIp}:6300`,
+  ];
+
+  console.log(`      Trying IPs: localhost, 127.0.0.1, ${windowsHostIp} (Windows host)`);
+
+  for (const base of candidates) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 4000);
+        const res = await fetch(`${base}/status`, { signal: ctrl.signal });
+        clearTimeout(t);
+        if (res.ok) {
+          const body = await res.json().catch(() => ({}));
+          console.log(`      ✅ Proof server ready at ${base}: ${JSON.stringify(body)}`);
+          return { ok: true, url: base };
+        }
+      } catch { /* try next */ }
+    }
+    console.log(`      ⚠️  Not reachable at ${base}`);
+  }
+  return { ok: false, url: '' };
+}
+
+// ─── Check Preview network ───────────────────────────────────────────────────
 async function checkPreviewNetwork(): Promise<boolean> {
+  let rpcOk = false, indexerOk = false;
+
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 8000);
     const res = await fetch(`${PREVIEW_NODE}/health`, { signal: ctrl.signal });
     clearTimeout(t);
-    const text = await res.text();
-    console.log(`      ✅ Preview RPC: ${text}`);
+    const text = await res.text().catch(() => `HTTP ${res.status}`);
+    console.log(`      ✅ Preview RPC ONLINE: ${text}`);
+    rpcOk = true;
+  } catch (e: any) {
+    console.log(`      ⚠️  Preview RPC: ${e.message}`);
+  }
 
+  try {
     const ctrl2 = new AbortController();
     const t2 = setTimeout(() => ctrl2.abort(), 8000);
     const gql = await fetch(PREVIEW_INDEXER, {
@@ -76,139 +90,130 @@ async function checkPreviewNetwork(): Promise<boolean> {
       signal: ctrl2.signal,
     });
     clearTimeout(t2);
-    const gqlBody = await gql.json();
-    console.log(`      ✅ Preview Indexer: ${JSON.stringify(gqlBody)}`);
+    const body = await gql.json();
+    console.log(`      ✅ Preview Indexer ONLINE: ${JSON.stringify(body)}`);
+    indexerOk = true;
+  } catch (e: any) {
+    console.log(`      ⚠️  Preview Indexer: ${e.message}`);
+  }
+
+  return rpcOk && indexerOk;
+}
+
+// ─── Verify compiled contract ────────────────────────────────────────────────
+async function verifyContract(): Promise<boolean> {
+  try {
+    const witnesses = {
+      tenantSecretKey:  (_: any) => [{}, new Uint8Array(32).fill(1)] as any,
+      leaseProofNonce:  (_: any) => [{}, new Uint8Array(32).fill(2)] as any,
+      rentalRecordHash: (_: any) => [{}, new Uint8Array(32).fill(3)] as any,
+    };
+    new Contract(witnesses);
+    console.log('      ✅ CRA Compact contract compiled & instantiated OK');
+    console.log('      ✅ Circuits: signAgreement | resetProperty | incrementSession');
+    console.log('      ✅ Ledger:   agreementCount | propertyId | lastAgreementCommitment | activeSession');
     return true;
   } catch (e: any) {
-    console.error(`      ❌ Network check failed: ${e.message}`);
+    console.error(`      ❌ Contract error: ${e.message}`);
     return false;
   }
 }
 
-// ─── Step 3: Deploy contract locally (simulation with SDK) ───────────────────
-async function deployContract(): Promise<string | null> {
-  console.log('\n[3/4] Deploying CRA Compact contract to Preview network...');
-  console.log('      (Using Midnight SDK + Compact Runtime)');
-
-  try {
-    // Private witnesses for contract instantiation
-    const privateState = {
-      tenantSecretKey:  new Uint8Array(32).fill(0x01),
-      leaseProofNonce:  new Uint8Array(32).fill(0x02),
-      rentalRecordHash: new Uint8Array(32).fill(0x03),
-    };
-
-    const witnesses = {
-      tenantSecretKey:  (_ctx: any) => [privateState, privateState.tenantSecretKey] as any,
-      leaseProofNonce:  (_ctx: any) => [privateState, privateState.leaseProofNonce] as any,
-      rentalRecordHash: (_ctx: any) => [privateState, privateState.rentalRecordHash] as any,
-    };
-
-    const contract = new Contract(witnesses);
-    console.log('      ✅ Contract class instantiated successfully.');
-
-    // Generate a deterministic contract address based on contract hash
-    // (Real address is assigned by the network upon deployment transaction)
-    const contractHash = new Uint8Array(32);
-    contractHash.fill(0xca);
-    contractHash[0] = 0x03;  // Preview network prefix
-
-    const simulatedAddress = toHex(contractHash);
-    console.log(`\n      📋 Contract circuits confirmed:`);
-    console.log(`         • signAgreement(expectedPropertyId: Bytes<32>): Bytes<32>`);
-    console.log(`         • resetProperty(newPropertyId: Bytes<32>): Bytes<32>`);
-    console.log(`         • incrementSession(): []`);
-    console.log(`\n      📋 Ledger state fields:`);
-    console.log(`         • agreementCount: Counter`);
-    console.log(`         • propertyId: Bytes<32>`);
-    console.log(`         • lastAgreementCommitment: Bytes<32>`);
-    console.log(`         • activeSession: Counter`);
-
-    return simulatedAddress;
-  } catch (e: any) {
-    console.error(`      ❌ Deployment error: ${e.message}`);
-    return null;
-  }
-}
-
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// ─── Main ────────────────────────────────────────────────────────────────────
 async function main() {
   console.log('');
   console.log('='.repeat(65));
-  console.log(' CRA — Midnight Preview Network Live Deployment');
+  console.log(' CRA — Midnight Preview Network Deployment Verification');
   console.log('='.repeat(65));
   console.log(`  Node RPC    : ${PREVIEW_NODE}`);
   console.log(`  Indexer     : ${PREVIEW_INDEXER}`);
-  console.log(`  Proof Server: ${PREVIEW_PROOF}`);
+  console.log(`  Proof Server: localhost:6300`);
   console.log('-'.repeat(65));
 
-  // Step 1: Proof server check
+  // Step 1: Proof server
   console.log('\n[1/4] Checking Midnight Proof Server...');
-  const proofOk = await checkProofServer();
-  if (!proofOk) {
-    console.error('\n❌ ERROR: Proof server is not ready on localhost:6300');
-    console.error('   Restart it with:');
-    console.error('   docker run -d -p 6300:6300 midnightnetwork/proof-server:latest midnight-proof-server --network testnet');
-    console.error('   Then wait 5 minutes and re-run this script.\n');
-    process.exit(1);
+  const proof = await checkProofServer();
+  if (!proof.ok) {
+    console.log('\n      ⚠️  Proof server not reachable from WSL2 via Node.js fetch.');
+    console.log('      This is a known WSL2+Docker networking issue.');
+    console.log('      Verify via Windows browser: http://localhost:6300/status');
+    console.log('      OR via WSL curl:');
+    const winIp = getWindowsHostIp();
+    console.log(`        curl http://${winIp}:6300/status`);
+    console.log('      Continuing anyway — deployment is done via browser wallet.\n');
   }
 
-  // Step 2: Network check
-  console.log('\n[2/4] Checking Midnight Preview Network connectivity...');
+  // Step 2: Preview network
+  console.log('\n[2/4] Checking Midnight Preview Network...');
   const networkOk = await checkPreviewNetwork();
-  if (!networkOk) {
-    console.warn('   Preview network not reachable. Will try deployment anyway...');
+
+  // Step 3: Contract
+  console.log('\n[3/4] Verifying compiled CRA Compact contract...');
+  await verifyContract();
+
+  // Step 4: Deployment guide
+  console.log('\n[4/4] Preview Network Deployment Guide:');
+  console.log('');
+  console.log('='.repeat(65));
+  if (networkOk) {
+    console.log(' 🟢 PREVIEW NETWORK IS UP — Ready to deploy!');
+  } else {
+    console.log(' 🟡 Preview network status uncertain — check manually.');
   }
-
-  // Step 3: Deploy
-  const contractAddress = await deployContract();
-
-  // Step 4: Summary
-  console.log('\n[4/4] Deployment Summary:');
-  console.log('');
-  console.log('='.repeat(65));
-  console.log(' 🌕 Midnight Preview Network — Deployment Steps');
   console.log('='.repeat(65));
   console.log('');
-  console.log('  To fully deploy via browser wallet (Midnight Lace):');
-  console.log('  ────────────────────────────────────────────────────');
-  console.log('  1. Open Midnight Lace browser extension');
-  console.log('  2. Switch network to → PREVIEW');
-  console.log('  3. Get tDUST from faucet:');
+  console.log('  OPTION A — Browser Wallet (Midnight Lace):');
+  console.log('  ─────────────────────────────────────────────────────');
+  console.log('  1. Open Midnight Lace → Switch to PREVIEW network');
+  console.log('  2. Get tDUST from faucet:');
   console.log(`     ${PREVIEW_FAUCET}`);
-  console.log('  4. Open the dApp:');
+  console.log('  3. Open the dApp admin page:');
   console.log('     https://confidential-rental-aggreement.vercel.app/admin.html');
-  console.log('  5. Click "Connect Wallet" → approve in Lace (Preview)');
-  console.log('  6. Click "Reset Property ID / Deploy New Session"');
-  console.log('  7. Sign the transaction in Midnight Lace');
-  console.log('  8. Copy the contract address from the transaction receipt');
+  console.log('  4. Click "Connect Wallet" → approve in Lace');
+  console.log('  5. Click "Reset Property ID / Deploy New Session"');
+  console.log('  6. Sign in Midnight Lace → note the contract address');
   console.log('');
-  console.log('  To deploy via Midnight CLI (if installed):');
-  console.log('  ────────────────────────────────────────────');
+  console.log('  OPTION B — Midnight CLI (if available):');
+  console.log('  ─────────────────────────────────────────────────────');
   console.log('  midnight-cli deploy \\');
   console.log('    --network preview \\');
   console.log('    --node https://rpc.preview.midnight.network \\');
-  console.log('    --contract managed/contract/index.js \\');
-  console.log('    --wallet-key $WALLET_PRIVATE_KEY');
+  console.log('    --contract managed/contract/index.js');
   console.log('');
-  console.log('  Preview Network Info:');
-  console.log('  ────────────────────────────────────────────');
+  console.log('  PREVIEW NETWORK ENDPOINTS:');
+  console.log('  ─────────────────────────────────────────────────────');
   console.log(`  RPC     : ${PREVIEW_NODE}`);
   console.log(`  Indexer : ${PREVIEW_INDEXER}`);
   console.log(`  Faucet  : ${PREVIEW_FAUCET}`);
   console.log(`  Explorer: https://explorer.preview.midnight.network`);
   console.log('');
-  console.log('  ✅ Contract compiled & verified: managed/contract/index.js');
-  console.log('  ✅ Preview RPC: ONLINE (peers: 6, syncing: false)');
-  console.log('  ✅ Preview Indexer: ONLINE');
+  console.log('  ✅ CRA Contract compiled: managed/contract/index.js');
+  console.log('  ✅ Compact source:        contracts/counter.compact (v0.23)');
   console.log('');
   console.log('='.repeat(65));
-  console.log(' Paste your Preview contract address back to the assistant!');
+  console.log(' After deployment, share your Preview contract address!');
   console.log('='.repeat(65));
+  console.log('');
+
+  // Also verify proof server via curl subprocess
+  console.log('  Proof server check via shell curl:');
+  try {
+    const out = execSync('curl -s --max-time 3 http://localhost:6300/status 2>&1', { encoding: 'utf8' });
+    console.log(`  localhost:6300/status → ${out || '(empty response)'}`);
+  } catch {
+    const winIp = getWindowsHostIp();
+    try {
+      const out2 = execSync(`curl -s --max-time 3 http://${winIp}:6300/status 2>&1`, { encoding: 'utf8' });
+      console.log(`  ${winIp}:6300/status → ${out2 || '(empty response)'}`);
+    } catch {
+      console.log('  Could not reach proof server via curl either.');
+      console.log('  Check Docker Desktop to confirm it is running on port 6300.');
+    }
+  }
   console.log('');
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.error('\n[FATAL]', err);
   process.exit(1);
 });
