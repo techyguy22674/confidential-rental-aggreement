@@ -150,11 +150,17 @@ Verification Output (npm run deploy:preview):
   ✅ Circuits: signAgreement | resetProperty | incrementSession
   ✅ Ledger:   agreementCount | propertyId | lastAgreementCommitment | activeSession
 
-=== Midnight Preprod Network ===
+=== Midnight Preprod Network (Live Verified Circuit Calls) ===
 Contract Address : 02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8
 Network          : Midnight Preprod Testnet
 Indexer URL      : https://indexer.preprod.midnight.network
 Node URL         : https://rpc.preprod.midnight.network
+
+Verified On-Chain Circuit Call (Admin Dashboard):
+  • Circuit:    resetProperty(newPropertyId: Bytes<32>)
+  • Tx Hash:    0xec0f79b23b28ca0dd3bd8fb63f43c28a723e0b1fb0844140c6ba1alaffc6360e
+  • Signed By:  mn_preprod1_commidnight1am_ms8w7r1p
+  • Status:     CONFIRMED (Midnight Preprod)
 ```
 
 ---
