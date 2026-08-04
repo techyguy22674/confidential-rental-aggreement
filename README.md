@@ -5,7 +5,7 @@
 [![Vercel Deployment](https://img.shields.io/badge/Vercel-confidential--rental--aggreement.vercel.app-000000?style=flat-square&logo=vercel)](https://confidential-rental-aggreement.vercel.app/)
 [![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/LYaO_T9eguU)
 [![CI/CD Pipeline](https://github.com/techyguy22674/confidential-rental-aggreement/actions/workflows/ci.yml/badge.svg)](https://github.com/techyguy22674/confidential-rental-aggreement/actions/workflows/ci.yml)
-[![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preprod-8b5cf6?style=flat-square)](https://explorer.preprod.midnight.network)
+[![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preview-8b5cf6?style=flat-square)](https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0)
 [![Compact Language](https://img.shields.io/badge/Compact-v0.23-e11d48?style=flat-square)](https://midnight.network)
 [![Node.js Version](https://img.shields.io/badge/Node.js-v22.x-10b981?style=flat-square)](https://nodejs.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
@@ -27,22 +27,13 @@
 - 🚀 **Vercel Live Demo**: [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/)
 - 🎥 **YouTube Demo Video**: [https://youtu.be/LYaO_T9eguU](https://youtu.be/LYaO_T9eguU)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
-
-### 🌕 Midnight Preview Network (Verified Live — RPC Online)
+- 🌐 **Midnight Explorer**: [https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0](https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0)
 - 📡 **Network**: Midnight Preview Testnet
-- 🔑 **Preview Contract Address**: `Pending` *(awaiting wallet-funded deployment via Midnight Lace on Preview)*
-- 🌐 **Preview Node RPC**: `https://rpc.preview.midnight.network` — ✅ **ONLINE** (`peers: 12, isSyncing: false`)
-- 📊 **Preview Indexer**: `https://indexer.preview.midnight.network/api/v4/graphql` — ✅ **ONLINE** (GraphQL responding)
-- 🔍 **Proof Server**: `localhost:6300` — ✅ **Running** (Docker, 16 workers, ZK keys downloaded)
+- 🔑 **Contract Address**: `0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0` ✅ **CONFIRMED**
+- 🌐 **Preview Node RPC**: `https://rpc.preview.midnight.network` — ✅ **ONLINE**
+- 📊 **Preview Indexer**: `https://indexer.preview.midnight.network/api/v4/graphql` — ✅ **ONLINE**
 - 💧 **Preview Faucet**: `https://faucet.preview.midnight.network`
-- 🔍 **Explorer**: [https://explorer.preview.midnight.network](https://explorer.preview.midnight.network)
-
-### 🧪 Midnight Preprod Network (Also Deployed)
-- 📡 **Network**: Midnight Preprod Testnet
-- 🔑 **Preprod Contract Address**: `02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8`
-- 🌐 **Preprod Node RPC**: `https://rpc.preprod.midnight.network`
-- 📊 **Preprod Indexer**: `https://indexer.preprod.midnight.network`
-- 🔍 **Explorer**: [https://explorer.preprod.midnight.network](https://explorer.preprod.midnight.network)
+- 💡 **Vercel Note**: No `.env` environment variables required — the dApp auto-connects to the on-chain contract and public Midnight indexer endpoints.
 
 ---
 

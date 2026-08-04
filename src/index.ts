@@ -30,10 +30,10 @@ function initApp() {
   if (contractAddrEl) contractAddrEl.textContent = CONTRACT_ADDRESS;
 
   if (proofProviderEl) {
-    proofProviderEl.textContent = isLocal ? "http://localhost:6300 (Local Docker)" : "Midnight Preprod Cloud ZK Service";
+    proofProviderEl.textContent = isLocal ? "http://localhost:6300 (Local Docker)" : "Midnight Preview Cloud ZK Service";
   }
   if (explorerProofServerEl) {
-    explorerProofServerEl.textContent = isLocal ? "http://localhost:6300 (Status: ONLINE)" : "Midnight Preprod ZK Infrastructure (ONLINE)";
+    explorerProofServerEl.textContent = isLocal ? "http://localhost:6300 (Status: ONLINE)" : "Midnight Preview ZK Infrastructure (ONLINE)";
   }
 
   let count = 0;
@@ -78,7 +78,7 @@ function initApp() {
 
           if (logBoxEl) {
             logBoxEl.innerHTML += `<div class="log-line success">> [WALLET CONNECTED] Address: ${res.walletAddress} (${res.walletName})</div>`;
-            logBoxEl.innerHTML += `<div class="log-line info">> [FAUCET] Need test tokens? Visit <a href="https://faucet.preprod.midnight.network" target="_blank" style="color:#fb7185; text-decoration:underline;">Midnight Preprod Faucet</a></div>`;
+            logBoxEl.innerHTML += `<div class="log-line info">> [FAUCET] Need test tokens? Visit <a href="https://faucet.preview.midnight.network" target="_blank" style="color:#fb7185; text-decoration:underline;">Midnight Preview Faucet</a></div>`;
             logBoxEl.scrollTop = logBoxEl.scrollHeight;
           }
         } catch (err: any) {
@@ -97,7 +97,7 @@ function initApp() {
       } else {
         try {
           await navigator.clipboard.writeText(walletAddress);
-          alert(`📋 Wallet Address Copied!\n\n${walletAddress}\n\nPaste this into the Midnight Preprod Faucet to receive test tokens.`);
+          alert(`📋 Wallet Address Copied!\n\n${walletAddress}\n\nPaste this into the Midnight Preview Faucet to receive test tokens.`);
           if (logBoxEl) {
             logBoxEl.innerHTML += `<div class="log-line success">> [COPIED] Wallet address copied: ${walletAddress}</div>`;
             logBoxEl.scrollTop = logBoxEl.scrollHeight;
@@ -223,7 +223,7 @@ function initApp() {
             <strong>New Property ID:</strong> ${res.newPropertyId}<br>
             <strong>On-Chain TxHash:</strong> ${res.txHash}<br>
             <strong>Signed By:</strong> ${res.signedBy}<br>
-            <strong>Status:</strong> CONFIRMED (Midnight Preprod)
+            <strong>Status:</strong> CONFIRMED (Midnight Preview)
           `;
         }
         alert(`✓ resetProperty() executed! TxHash: ${res.txHash}`);
@@ -251,7 +251,7 @@ function initApp() {
             <strong>Action:</strong> Active Lease Epoch Incremented (+1)<br>
             <strong>On-Chain TxHash:</strong> ${res.txHash}<br>
             <strong>Signed By:</strong> ${res.signedBy}<br>
-            <strong>Status:</strong> CONFIRMED (Midnight Preprod)
+            <strong>Status:</strong> CONFIRMED (Midnight Preview)
           `;
         }
         alert(`✓ incrementSession() executed! TxHash: ${res.txHash}`);

@@ -11,11 +11,11 @@ import { Contract, ledger, type Ledger, type Witnesses } from '../../managed/con
  *   Preview : Pending — update PREVIEW_CONTRACT_ADDRESS after deploying to Preview
  */
 
-// Preprod contract address (verified on-chain)
-export const CONTRACT_ADDRESS = "02008f4c28a9b2e04e76d910a39c14f5e82b714902c38d51a628e49f60d3c1b8";
+// Preview contract address (verified on-chain)
+export const CONTRACT_ADDRESS = "0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0";
 
-// Preview contract address (update after deploying to Preview network)
-export const PREVIEW_CONTRACT_ADDRESS = "Pending";
+// Active Preview contract address
+export const PREVIEW_CONTRACT_ADDRESS = "0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0";
 
 export const getProofServerUrl = (): string => {
   if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
