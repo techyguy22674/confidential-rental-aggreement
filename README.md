@@ -39,14 +39,20 @@
 
 ## 📸 Platform Screenshots
 
-### Confidential Rental Agreement — Main Application & Dashboard
-![Confidential Rental Agreement Main Application](photos/image.png)
+### 1. Confidential Rental Agreement — Main Application & Dashboard
+![Confidential Rental Agreement Main Dashboard](photos/dashboard.png)
 
-### ZK Proof Generation & Activity Log
-![ZK Proof Generation & Activity Log](photos/image-1.png)
+### 2. Landlord Admin Console & Property Management
+![Landlord Admin Console](photos/admin.png)
 
-### On-Chain Ledger & Admin Panel
-![On-Chain Ledger & Admin Panel](photos/screenshot.png)
+### 3. Tenant Portal — ZK Witness Proof Generation & Lease Signing
+![Tenant Portal ZK Proof Generation](photos/terent-portal.png)
+
+### 4. Mobile Responsive UI & Navigation
+![Mobile Responsive UI](photos/mobile-ui.png)
+
+### 5. On-Chain Execution & Test Verification Log
+![On-Chain Verification Log](photos/test-run.png)
 
 ---
 
