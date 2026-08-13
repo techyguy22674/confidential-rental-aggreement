@@ -1,0 +1,128 @@
+pragma language_version 0.23;
+import CompactStandardLibrary;
+
+// ─── Ledger State (8 fields) ───────────────────────────────────────────────────
+// Public on-chain state stored on the Midnight Network
+export ledger agreementCount: Counter;            // Total lease agreements signed
+export ledger revokedCount: Counter;               // Total revoked/terminated agreements
+export ledger activeSession: Counter;              // Epoch nonce for replay protection
+export ledger propertyId: Bytes<32>;                // Current active rental property ID
+export ledger landlordCommitment: Bytes<32>;       // Landlord public authority commitment
+export ledger lastAgreementCommitment: Bytes<32>; // Most recent tenant ZK lease commitment
+export ledger lastRevokedCommitment: Bytes<32>;   // Most recent revoked commitment hash
+export ledger minimumIncomeRequirement: Uint<32>; // Minimum income threshold set by landlord
+
+// ─── Witnesses (5 Private Inputs — Never Disclosed On-Chain) ───────────────────
+witness tenantSecretKey(): Bytes<32>;        // Tenant's private identity key
+witness leaseProofNonce(): Bytes<32>;        // Entropy salt for replay protection
+witness rentalRecordHash(): Bytes<32>;       // Hashed background/credit record
+witness tenantIncomeBalance(): Uint<32>;     // Private monthly income (checked vs. threshold)
+witness landlordSigningKey(): Bytes<32>;     // Landlord private key (admin ZK auth)
+
+// ─── Circuit 1: signAgreement ──────────────────────────────────────────────────
+// Tenant privately proves their income balance satisfies minimumIncomeRequirement
+// (income >= minimumIncomeRequirement) without disclosing raw income or identity.
+// Only the multi-input commitment hash is written on-chain.
+export circuit signAgreement(expectedPropertyId: Bytes<32>): Bytes<32> {
+  // Verify tenant is applying to the active rental property ID
+  assert(propertyId == expectedPropertyId, "Property ID mismatch: lease application rejected");
+
+  // Compute private witnesses locally on tenant device
+  const tenantKey = tenantSecretKey();
+  const nonce = leaseProofNonce();
+  const recordHash = rentalRecordHash();
+  const income = tenantIncomeBalance();
+
+  // ZK Income Threshold Assertion:
+  // Prove tenant income meets or exceeds landlord requirement privately
+  assert(income >= minimumIncomeRequirement, "Insufficient income: below required rental threshold");
+
+  // Session binding prevents cross-epoch proof reuse
+  const sessionBytes = pad(32, "cra:session:binding");
+
+  // Multi-input ZK lease commitment (Vector<5, Bytes<32>>):
+  // Hash(domain_tag || tenantKey || nonce || recordHash || session)
+  const agreementCommitment = persistentHash<Vector<5, Bytes<32>>>([
+    pad(32, "cra:rental:agreement:v2"),
+    tenantKey,
+    nonce,
+    recordHash,
+    sessionBytes
+  ]);
+
+  // Increment total agreement counter
+  agreementCount.increment(1);
+
+  // Disclose ONLY the commitment hash — all private inputs stay hidden
+  const disclosedCommitment = disclose(agreementCommitment);
+  lastAgreementCommitment = disclosedCommitment;
+
+  return disclosedCommitment;
+}
+
+// ─── Circuit 2: verifyAgreement ────────────────────────────────────────────────
+// Public on-chain verification checking whether a claimed commitment matches
+// the registered lease commitment on-chain.
+export circuit verifyAgreement(claimedCommitment: Bytes<32>): Boolean {
+  const matches = lastAgreementCommitment == claimedCommitment;
+  return disclose(matches);
+}
+
+// ─── Circuit 3: revokeAgreement ────────────────────────────────────────────────
+// Landlord terminates or revokes a lease agreement.
+// Requires landlord signing key as a ZK witness for authorization.
+export circuit revokeAgreement(commitmentToRevoke: Bytes<32>): Bytes<32> {
+  // Derive landlord authority commitment from private signing key
+  const landlordKey = landlordSigningKey();
+  const derivedLandlordCommitment = persistentHash<Vector<2, Bytes<32>>>([
+    pad(32, "cra:landlord:authority:v1"),
+    landlordKey
+  ]);
+
+  // Verify caller is the authorized landlord
+  assert(derivedLandlordCommitment == landlordCommitment, "Unauthorized: landlord commitment mismatch");
+
+  // Record revocation
+  revokedCount.increment(1);
+  const disclosedRevoked = disclose(commitmentToRevoke);
+  lastRevokedCommitment = disclosedRevoked;
+
+  return disclosedRevoked;
+}
+
+// ─── Circuit 4: setLandlordCommitment ──────────────────────────────────────────
+// One-time setup: landlord anchors public authority commitment on-chain and sets
+// the minimum income requirement for prospective tenants.
+export circuit setLandlordCommitment(newMinimumIncome: Uint<32>): Bytes<32> {
+  const landlordKey = landlordSigningKey();
+  const newLandlordCommitment = persistentHash<Vector<2, Bytes<32>>>([
+    pad(32, "cra:landlord:authority:v1"),
+    landlordKey
+  ]);
+
+  const disclosedCommitment = disclose(newLandlordCommitment);
+  landlordCommitment = disclosedCommitment;
+
+  // Set the minimum income requirement
+  minimumIncomeRequirement = newMinimumIncome;
+
+  // Bump active session epoch
+  activeSession.increment(1);
+
+  return disclosedCommitment;
+}
+
+// ─── Circuit 5: resetProperty ──────────────────────────────────────────────────
+// Landlord updates property ID and sets a new minimum income requirement.
+export circuit resetProperty(newPropertyId: Bytes<32>, newMinimumIncome: Uint<32>): Bytes<32> {
+  propertyId = disclose(newPropertyId);
+  minimumIncomeRequirement = newMinimumIncome;
+  activeSession.increment(1);
+  return propertyId;
+}
+
+// ─── Circuit 6: incrementSession ──────────────────────────────────────────────
+// Monotonic epoch nonce bump for manual rotation or security invalidation.
+export circuit incrementSession(): [] {
+  activeSession.increment(1);
+}

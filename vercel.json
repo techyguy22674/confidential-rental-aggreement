@@ -1,13 +1,6 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/checkin", "destination": "/checkin.html" },
-    { "source": "/apply", "destination": "/checkin.html" },
-    { "source": "/submit", "destination": "/submit.html" },
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/inspector", "destination": "/inspector.html" },
-    { "source": "/explorer", "destination": "/explorer.html" }
-  ],
+  "outputDirectory": "out",
   "headers": [
     {
       "source": "/(.*)",
