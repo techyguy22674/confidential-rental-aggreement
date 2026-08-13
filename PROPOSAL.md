@@ -165,4 +165,4 @@ CRA uses Midnight's **dual-state model**: private witnesses computed locally on-
 - [x] **Next.js 14 App Router UI**: Full dApp with ZK architecture diagrams, income threshold slider, verify/revoke panels.
 - [x] **On-Chain Preview Deployment**: Deployed at [Midnight Explorer](https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0).
 - [x] **Live Vercel Demo**: [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/).
-- [x] **Video Demo**: [YouTube](https://youtu.be/LYaO_T9eguU).
+- [x] **Video Demo**: [YouTube](https://youtu.be/m5JKf-RWM-o).

@@ -3,7 +3,7 @@
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-confidential--rental--aggreement-181717?style=flat-square&logo=github)](https://github.com/techyguy22674/confidential-rental-aggreement)
 [![Vercel Deployment](https://img.shields.io/badge/Vercel-confidential--rental--aggreement.vercel.app-000000?style=flat-square&logo=vercel)](https://confidential-rental-aggreement.vercel.app/)
-[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/LYaO_T9eguU)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-FF0000?style=flat-square&logo=youtube)](https://youtu.be/m5JKf-RWM-o)
 [![CI/CD Pipeline](https://github.com/techyguy22674/confidential-rental-aggreement/actions/workflows/ci.yml/badge.svg)](https://github.com/techyguy22674/confidential-rental-aggreement/actions/workflows/ci.yml)
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preview-8b5cf6?style=flat-square)](https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0)
 [![Compact Language](https://img.shields.io/badge/Compact-v0.23-e11d48?style=flat-square)](https://midnight.network)
@@ -26,7 +26,7 @@
 - 📄 **Project Proposal**: [PROPOSAL.md](PROPOSAL.md)
 - 📦 **GitHub Repository**: [https://github.com/techyguy22674/confidential-rental-aggreement](https://github.com/techyguy22674/confidential-rental-aggreement)
 - 🚀 **Vercel Live Demo**: [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/)
-- 🎥 **YouTube Demo Video**: [https://youtu.be/LYaO_T9eguU](https://youtu.be/LYaO_T9eguU)
+- 🎥 **YouTube Demo Video**: [https://youtu.be/m5JKf-RWM-o](https://youtu.be/m5JKf-RWM-o)
 - ⚙️ **CI/CD Workflow**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - 🌐 **Midnight Explorer**: [https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0](https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0)
 - 📡 **Network**: Midnight Preview Testnet
@@ -41,16 +41,16 @@
 ## 📸 Platform Screenshots & Verification
 
 ### 1. Confidential Rental Agreement — Main Application & Dashboard
-![Confidential Rental Agreement Main Dashboard](photos/dashboard.png)
+![Confidential Rental Agreement Main Dashboard](photos/dashboard_main.png)
 
 ### 2. Landlord Admin Console & Property Management
-![Landlord Admin Console](photos/admin.png)
+![Landlord Admin Console](photos/admin_dashboard.png)
 
 ### 3. Tenant Portal — ZK Witness Proof Generation & Lease Signing
-![Tenant Portal ZK Proof Generation](photos/terent-portal.png)
+![Tenant Portal ZK Proof Generation](photos/terent-portal_dash.png)
 
 ### 4. Mobile Responsive UI & Navigation
-![Mobile Responsive UI](photos/mobile-ui.png)
+![Mobile Responsive UI](photos/ui_mobile.png)
 
 ### 5. On-Chain Execution & Test Verification Log
 ![On-Chain Verification Log](photos/test-run.png)
@@ -190,4 +190,4 @@ export circuit incrementSession(): [] { activeSession.increment(1); }
 - [x] **Browser Proof Generation**: Client-side ZK proof generation and Midnight Lace wallet connector.
 - [x] **On-Chain Midnight Preview Deployment**: [Midnight Explorer](https://preview.midnightexplorer.com/contracts/0df73463334fda0ddd7c0b2755c04251c305868219682427253c06a6f538fab0).
 - [x] **Live Vercel Demo**: [https://confidential-rental-aggreement.vercel.app/](https://confidential-rental-aggreement.vercel.app/).
-- [x] **Video Demonstration**: [YouTube Demo](https://youtu.be/LYaO_T9eguU).
+- [x] **Video Demonstration**: [YouTube Demo](https://youtu.be/m5JKf-RWM-o).

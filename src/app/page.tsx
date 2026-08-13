@@ -96,7 +96,7 @@ export default function HomePage() {
                 target="_blank" rel="noopener noreferrer" className="btn-secondary">
                 🔍 Midnight Explorer
               </a>
-              <a href="https://youtu.be/LYaO_T9eguU" target="_blank" rel="noopener noreferrer" className="btn-secondary">
+              <a href="https://youtu.be/m5JKf-RWM-o" target="_blank" rel="noopener noreferrer" className="btn-secondary">
                 🎥 YouTube Demo
               </a>
               <a href="https://github.com/techyguy22674/confidential-rental-aggreement" target="_blank" rel="noopener noreferrer" className="btn-secondary">
